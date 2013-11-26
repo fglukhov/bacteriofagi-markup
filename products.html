@@ -487,7 +487,41 @@
 
 <!-- Pop-ups -->
 
-
+<div class="popup" id="feedbackPopup">
+  <div class="pup-content-wrapper">
+  	<div class="pup-content">
+  		<div class="close"></div>
+      <h2>Свяжитесь с нами</h2>
+      <div class="common-form feedback-popup-form">
+        <form action="." id="feedbackPopupForm">
+          <div class="form-item">
+            <label class="placeholder" for="feedback_name">Ваше имя <span class="req">*</span></label>
+            <input type="text" class="form-text" name="feedback_name" id="feedback_name" required />
+          </div>
+          <div class="form-item">
+            <label class="placeholder" for="feedback_email">E-mail <span class="req">*</span></label>
+            <input type="text" class="form-text" name="feedback_email" id="feedback_email" required />
+          </div>
+          <div class="form-item">
+            <select class="form-select hide-ttl" name="feedback_type" id="feedback_type" required >
+              <option value="">Категория вопроса</option>
+              <option value="1">Общие вопросы</option>
+              <option value="2">Противопоказания</option>
+              <option value="3">Консультация специалиста</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label class="placeholder" for="feedback_message">Ваш вопрос <span class="req">*</span></label>
+            <textarea name="feedback_message" id="feedback_message" rows="8" class="form-textarea" required ></textarea>
+          </div>
+          <div class="form-footer fc">
+            <input type="submit" class="form-submit button button-ico button-contact" value="Отправить" />
+          </div>
+        </form>
+      </div>
+  	</div>
+  </div>
+</div>
 
 <!-- Pop-ups END -->
 

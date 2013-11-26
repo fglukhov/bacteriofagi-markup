@@ -9,6 +9,12 @@ $(window).load(function() {
 
 $(document).ready(function () {
 
+  $(".header .button-contact, .footer .button-contact").click(function() {
+    openPopup("feedbackPopup")
+  });
+
+  $(".common-form select").customSelect();
+
   // Simple slider
   
   if ($(".slider").length) {
@@ -62,7 +68,7 @@ $(document).ready(function () {
 
   $(".form-phone").mask("+7 (999) 999-99-99");
 
-  //validateForms();
+  validateForms();
 
   makeup();
   
@@ -179,24 +185,25 @@ function makeup() {
 
 function validateForms() {
   
-  var validatoractionForm2 = $("#actionForm2").bind("invalid-form.validate", function() {
+  var validatoQuestion = $("#questionForm").bind("invalid-form.validate", function() {
   	    
     }).validate({
     focusInvalid: false,
     sendForm : false,
-    /*rules: {
-      action_2_email: {
+    rules: {
+      question_email: {
         required: true,
         email: true
       }
-    },*/
+    },
     messages: {
-      action_2_name: "Поле не заполнено!",
-      action_2_phone: "Поле не заполнено!"
+      question_name: "Заполните поле!",
+      question_email: "Введите правильный адрес!",
+      question_message: "Заполните поле!"
     },
     errorPlacement: function(error, element) {
       // element.parents(".input-wrapper").addClass("input-wrapper-error");
-      error.insertAfter(element);
+      error.insertAfter(element).wrap("<div class='error-wrapper' />");
     },
     unhighlight: function(element, errorClass, validClass) {
       // $(element).parents(".input-wrapper").removeClass("input-wrapper-error");
@@ -208,29 +215,80 @@ function validateForms() {
         if (errors) {                    
             validatorcalc.errorList[0].element.focus();
         }
-    } 
+    },
+  });
+  
+  var validatorFeedback = $("#feedbackPopupForm").bind("invalid-form.validate", function() {
+  	    
+    }).validate({
+    focusInvalid: false,
+    sendForm : false,
+    rules: {
+      feedback_email: {
+        required: true,
+        email: true
+      }
+    },
+    messages: {
+      feedback_name: "Заполните поле!",
+      feedback_email: "Введите правильный адрес!",
+      feedback_type: "Выберите категорию!",
+      feedback_message: "Заполните поле!"
+    },
+    errorPlacement: function(error, element) {
+      // element.parents(".input-wrapper").addClass("input-wrapper-error");
+      error.insertAfter(element).wrap("<div class='error-wrapper' />");
+      if (element[0].tagName == "SELECT") {
+        element.parents(".form-item").find(".param-selector").addClass("param-sel-error")
+      }
+    },
+    unhighlight: function(element, errorClass, validClass) {
+      // $(element).parents(".input-wrapper").removeClass("input-wrapper-error");
+      $(element).removeClass(errorClass);
+      $(element).next("label.error").remove();
+      if ($(element)[0].tagName == "SELECT") {
+        $(element).parents(".form-item").find(".param-selector").removeClass("selector-error")
+      }
+    },
+    invalidHandler: function(form, validatorcalc) {
+        var errors = validatorcalc.numberOfInvalids();
+        if (errors) {                    
+            validatorcalc.errorList[0].element.focus();
+        }
+    },
   });
     
-  $("#actionForm2").submit(function() {
-    if ($("#actionForm2").valid()) {
-      //$(".loader").show();
-      $.ajax({
-        type: "POST",
-        url: "order.php",
-          data: { 
-            subject: $("#action_2_subject").val(), 
-            kind: $("#action_2_kind").val(), 
-            name: $("#action_2_name").val(), 
-            phone: $("#action_2_phone").val()
-          }
-        }).done(function() {
-        
-        formSuccess()
-        
-      });
-      return false;
-    }
-	});
+  var validatoSubscribe = $("#subscribeForm").bind("invalid-form.validate", function() {
+  	    
+    }).validate({
+    focusInvalid: false,
+    sendForm : false,
+    rules: {
+      subscribe_email: {
+        required: true,
+        email: true
+      }
+    },
+    messages: {
+      subscribe_name: "Заполните поле!",
+      subscribe_email: "Введите правильный адрес!"
+    },
+    errorPlacement: function(error, element) {
+      // element.parents(".input-wrapper").addClass("input-wrapper-error");
+      error.insertAfter(element).wrap("<div class='error-wrapper' />");
+    },
+    unhighlight: function(element, errorClass, validClass) {
+      // $(element).parents(".input-wrapper").removeClass("input-wrapper-error");
+      $(element).removeClass(errorClass);
+      $(element).next("label.error").remove();
+    },
+    invalidHandler: function(form, validatorcalc) {
+        var errors = validatorcalc.numberOfInvalids();
+        if (errors) {                    
+            validatorcalc.errorList[0].element.focus();
+        }
+    },
+  });
   
   var validatoractionForm1 = $("#actionForm1").bind("invalid-form.validate", function() {
   	    
@@ -819,19 +877,6 @@ function openPopup(pupId) {
   });
 }
 
-function formSuccess() {
-  $(".popup").hide();
-  $(".tint").remove();
-  openPopup('successPopup');
-  pupMakeup();
-  
-  var t = setTimeout(function() {
-    closePopup('successPopup');
-  },3000)
-  
-  
-}
-
 (function( jQuery ) {
   jQuery.fn.mainSlider = function() {
     var slider = $(this);
@@ -970,6 +1015,119 @@ function formSuccess() {
       });
     
     }
+    
+  };
+})( jQuery );
+
+(function( $ ) {
+  $.fn.customSelect = function() {
+    var selects = $(this);
+    selects.each(function () {
+      var select = $(this);
+      
+      if (!$(this).next(".param-selector").length) {
+        select.css("visibility","hidden").css("position","absolute").css("z-index","-1");
+        select.after("<div class='param-selector' id='" + select.attr("id") + "-selector'>");
+        var selector = select.next(".param-selector");
+        
+        if (select.is(":disabled")) {
+          selector.addClass("selector-disabled")
+        }
+        
+        
+        selector.append("<div class='param-sel' />").append("<div class='dropdown' />");
+        var dropdown = selector.find(".dropdown");
+        // dropdown.append("<div class='top-border' />");
+        var paramSel = selector.find(".param-sel");
+        paramSel.addClass("initial");
+        paramSel.append("<div class='arr' />");
+        paramSel.append("<div class='sel-value' />");
+        
+        if (select.find("option[value=" + select.val() + "]").attr("flag")) {
+          paramSel.find(".sel-value").html("<img src='" + select.find("option[value=" + select.val() + "]").attr("flag") + "' />" + select.find("option[value=" + select.val() + "]").html());
+        } else {
+          paramSel.find(".sel-value").html(select.find("option[value=" + select.val() + "]").html());
+        }
+        
+        select.find("option").each(function () {
+          if ($(this).attr("flag")) {
+            var flag = "<img src=" + $(this).attr("flag") + " />";
+          } else {
+            flag = "";
+          }
+          if ($(this).val() != select.val()/* || select.attr("ttl")*/) {
+            dropdown.append("<div val='" + $(this).attr("value") + "'>" + flag + $(this).html() + "</div>");
+          } else {
+            dropdown.append("<div style='display:none' val='" + $(this).attr("value") + "'>" + flag + $(this).html() + "</div>");
+          }
+        });
+      
+      
+        paramSel.click(function() {
+          if (!select.is(":disabled")) {
+            if (dropdown.css("display") != "block") {
+              $(".dropdown").fadeOut(150);
+              $(".param-open").removeClass("param-open");
+              dropdown.fadeIn(150);
+              selector.addClass("param-open");
+              var maxWidth = 0;
+              
+              $(this).parents(".form-item").prevAll(".form-item").css("z-index","100");
+              $(this).parents(".form-item").css("z-index","1000");
+              $(this).parents(".form-item").nextAll(".form-item").css("z-index","100");
+              
+              dropdown.find("div").each(function () {
+                if ($(this).width() >= maxWidth) {
+                  maxWidth = $(this).width();
+                }
+                if (paramSel.width() >= maxWidth) {
+                  maxWidth = paramSel.width() + 1;
+                }
+              });
+              
+              //paramSel.css("width", maxWidth + "px");
+              // dropdown.find("div").css("width", maxWidth + "px");
+              // dropdown.css("width", maxWidth);
+              
+              // ddOverflow = $("html").height() - (dropdown.offset().top + dropdown.height());
+              // if (ddOverflow < 0) {
+                // dropdown.css("margin-top", -30 - dropdown.height());
+              // }
+              
+              //dropdown.css("top",paramSel.position().top + paramSel.height());
+              
+            } else {
+              dropdown.fadeOut(150);
+              selector.removeClass("param-open");
+            }
+          }
+        });
+        
+        dropdown.find("div").click(function () {
+          selector.removeClass("param-sel-error");
+          paramSel.removeClass("initial");
+          var div = $(this);
+          paramSel.find(".sel-value").html($(this).html());
+          if ($(this).attr("flag")) {
+            paramSel.find(".sel-value").attr("flag",$(this).attr("flag"));
+          }
+          select.val($(this).attr("val")).change();
+          if (select.hasClass("hide-ttl")) {
+            //select.find("option[value='']").remove();
+            dropdown.find("div[val='']").remove();
+          }
+          dropdown.fadeOut(150, function () {
+            dropdown.find("div").show().removeClass("selected");
+            div.addClass("selected");
+            div.parents(".param-open").removeClass("param-open");
+          });
+          if ($(this).attr("val")) {
+            selector.parents(".form-item").find("label.error").remove();
+          }
+        });
+      
+      }
+    });
     
   };
 })( jQuery );

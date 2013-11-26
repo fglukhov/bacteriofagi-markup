@@ -23,6 +23,7 @@
 </script>
 
 <!-- <script type="text/javascript" src="js/map.js"></script> -->
+
 <script type="text/javascript" src="js/scripts.js"></script>
 
 </head>
@@ -165,7 +166,17 @@
               </div>
               
               <div class="wi-video">
-                <div class="video-cont"></div>
+                <div class="video-cont" id="mpVideo"></div>
+                <script type="text/javascript" src="js/jquery.swfobject.js"></script>
+                <script type="text/javascript" src="js/youTubeEmbed-jquery.js"></script>
+                <script type="text/javascript">
+                  $('#mpVideo').youTubeEmbed({
+                    video			: 'http://www.youtube.com/watch?v=MplVMNyi_1k',
+                    width			: 486,
+                    height			: 298,
+                    progressBar	: false
+                  });
+                </script>
               </div>
               
             </div>
@@ -640,7 +651,7 @@
         <div class="mainpage-question">
           <div class="center-wrapper">
             <div class="fc">
-              <div class="common-form question-form">
+              <div class="common-form question-form errors-right">
                 <div class="cont">
                 	<form id="questionForm" action=".">
                 	  <div class="form-item">
@@ -653,7 +664,7 @@
                 	  </div>
                 	  <div class="form-item">
                 	    <label class="placeholder" for="question_message">Ваш вопрос <span class="req">*</span></label>
-                	    <textarea name="question_message" id="question_message" rows="5" class="form-textarea"></textarea>
+                	    <textarea name="question_message" id="question_message" rows="5" class="form-textarea" required ></textarea>
                 	  </div>
                 	  <div class="form-footer fc">
                 	    <div class="req-hint">
@@ -692,17 +703,19 @@
           	  <h3>Подпишитесь</h3>
           	  <p>и получайте полезную информацию</p>
           	  <div class="common-form subscribe-form">
-          	    <div class="form-item">
-          	      <label class="placeholder" for="subscribe_name">Ваше имя</label>
-          	      <input type="text" class="form-text" name="subscribe_name" id="subscribe_name" required />
-          	    </div>
-          	    <div class="form-item">
-          	      <label class="placeholder" for="subscribe_email">E-mail</label>
-          	      <input type="text" class="form-text" name="subscribe_email" id="subscribe_email" required />
-          	    </div>
-          	    <div class="form-footer fc">
-          	      <input type="submit" class="form-submit button button-ico" value="Подписаться" />
-          	    </div>
+          	    <form action="" id="subscribeForm">
+          	    	<div class="form-item">
+          	    	  <label class="placeholder" for="subscribe_name">Ваше имя</label>
+          	    	  <input type="text" class="form-text" name="subscribe_name" id="subscribe_name" required />
+          	    	</div>
+          	    	<div class="form-item">
+          	    	  <label class="placeholder" for="subscribe_email">E-mail</label>
+          	    	  <input type="text" class="form-text" name="subscribe_email" id="subscribe_email" required />
+          	    	</div>
+          	    	<div class="form-footer fc">
+          	    	  <input type="submit" class="form-submit button button-ico" value="Подписаться" />
+          	    	</div>
+          	    </form>
           	  </div>
           	</div>
           </div>
@@ -841,7 +854,41 @@
 
 <!-- Pop-ups -->
 
-
+<div class="popup" id="feedbackPopup">
+  <div class="pup-content-wrapper">
+  	<div class="pup-content">
+  		<div class="close"></div>
+      <h2>Свяжитесь с нами</h2>
+      <div class="common-form feedback-popup-form">
+        <form action="." id="feedbackPopupForm">
+          <div class="form-item">
+            <label class="placeholder" for="feedback_name">Ваше имя <span class="req">*</span></label>
+            <input type="text" class="form-text" name="feedback_name" id="feedback_name" required />
+          </div>
+          <div class="form-item">
+            <label class="placeholder" for="feedback_email">E-mail <span class="req">*</span></label>
+            <input type="text" class="form-text" name="feedback_email" id="feedback_email" required />
+          </div>
+          <div class="form-item">
+            <select class="form-select hide-ttl" name="feedback_type" id="feedback_type" required >
+              <option value="">Категория вопроса</option>
+              <option value="1">Общие вопросы</option>
+              <option value="2">Противопоказания</option>
+              <option value="3">Консультация специалиста</option>
+            </select>
+          </div>
+          <div class="form-item">
+            <label class="placeholder" for="feedback_message">Ваш вопрос <span class="req">*</span></label>
+            <textarea name="feedback_message" id="feedback_message" rows="8" class="form-textarea" required ></textarea>
+          </div>
+          <div class="form-footer fc">
+            <input type="submit" class="form-submit button button-ico button-contact" value="Отправить" />
+          </div>
+        </form>
+      </div>
+  	</div>
+  </div>
+</div>
 
 <!-- Pop-ups END -->
 
