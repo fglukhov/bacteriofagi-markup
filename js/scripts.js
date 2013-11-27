@@ -9,6 +9,32 @@ $(window).load(function() {
 
 $(document).ready(function () {
 
+  $(".filter-trigger").each(function() {
+    $(this).attr("origname",$(this).find("span span").html())
+  });
+
+  $(".filter-trigger").click(function() {
+    var trigger = $(this);
+    if (!trigger.hasClass("filter-trigger-act")) {
+      trigger.find("span span").html("Свернуть");
+      
+      $(this).prev("ul").find("li.hidden").slideDown(200,function() {
+        trigger.prev("ul").find("li.hidden a").fadeIn(200)
+      });
+      
+    } else {
+      
+      $(this).prev("ul").find("li.hidden a").fadeOut(200,function() {
+        trigger.prev("ul").find("li.hidden").slideUp(200)
+      });
+    
+      trigger.find("span span").html($(this).attr("origname"));
+    }
+    
+    $(this).toggleClass("filter-trigger-act");
+    
+  });
+
   $(".header .button-contact, .footer .button-contact").click(function() {
     openPopup("feedbackPopup")
   });
