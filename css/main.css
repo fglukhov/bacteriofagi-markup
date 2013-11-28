@@ -392,6 +392,7 @@ blockquote .footer:after,
   padding-right:0;
 }
 
+.main-menu li:hover a,
 .main-menu li.act,
 .main-menu li.act a,
 .main-menu li.act :visited {
@@ -2812,22 +2813,26 @@ hr {
   margin:0 0 21px 0;
 }
 
+.press-list {
+  padding:0 0 20px 0;
+  margin:-21px 0 0 0;
+}
+
 .press-list-item,
 .press-list-item:visited {
-  margin:0 0 46px 0;
+  padding:20px;
+  margin:0 -21px 6px -21px;
   display:block;
   color:#646464;
   text-decoration:none;
   clear:left;
   position:relative;
+  border:1px solid #fff;
 }
 
 .press-list-item:hover {
   color:#0f9e88;
   border:1px solid #bce1db;
-  padding:20px;
-  top:-21px;
-  margin:0 -21px 4px -21px;
 }
 
 .press-list-item span {
@@ -2991,7 +2996,6 @@ hr {
 }
 
 .section-calendar a:hover {
-  text-decoration:none !important;
 }
 
 .section-calendar li ul {
@@ -3005,13 +3009,11 @@ hr {
 .section-calendar li ul a,
 .section-calendar li ul a:visited {
   color:#97948f !important;
-  text-decoration:none;
 }
 
 .section-calendar .monthes .act a,
 .section-calendar li ul .act a,
 .section-calendar li ul .act a:visited {
-  text-decoration:none !important;
   color:#22b19b !important;
 }
 
@@ -3242,4 +3244,39 @@ hr {
 
 .keyword {
   background-color:#fdf5db;
+}
+
+.block-404 {
+  width:382px;
+  height:382px;
+  background:url(../images/404-bg.png) 0 0 no-repeat;
+  margin:50px auto;
+  color:#fff;
+  text-align:center;
+}
+
+.block-404 .ttl {
+  font-family:'helioslightregular';
+  font-size:130px;
+  line-height:130px;
+  padding:68px 0 13px 0;
+}
+
+.block-404 .descr {
+  font-size:16px;
+  line-height:20px;
+  padding:0 0 33px 0;
+}
+
+.block-404 .button-back,
+.block-404 .button-back:visited {
+  width:109px;
+  height:41px;
+  background:url(../images/btn-back.png) 0 0 no-repeat;
+  display:block;
+  margin:0 auto;
+  color:#678ee2;
+  text-decoration:none;
+  text-align:center;
+  line-height:39px;
 }
