@@ -5,6 +5,9 @@
 
 $(window).load(function() {
   $("body").css("width",$("body").width()-1).css("width",$("body").width()+1);
+  $(".slider").each(function() {
+    $(this).css("height",$(this).find("img").eq(0).height());
+  });
 });
 
 $(document).ready(function () {
@@ -59,7 +62,7 @@ $(document).ready(function () {
 
   $(".facts-tree .pup-trigger").hover(function() {
     var trigger = $(this);
-    var popup = $(this).next(".tree-popup");
+    var popup = $(this).parents("div").children(".tree-popup");
     
     if (trigger.offset().top - $(window).scrollTop() + trigger.height()/2 < $(window).height()/2) {
       popup.fadeToggle(250)
@@ -185,7 +188,7 @@ function makeup() {
         }
         $th.prev().nextUntil(':not(img)').wrapAll('<div class="slider">');
         $th.parents(".slider").simpleSlider({
-          width:520,
+          width:530,
           showtitles: false
         });
       }
@@ -260,6 +263,46 @@ function validateForms() {
       feedback_email: "Введите правильный адрес!",
       feedback_type: "Выберите категорию!",
       feedback_message: "Заполните поле!"
+    },
+    errorPlacement: function(error, element) {
+      // element.parents(".input-wrapper").addClass("input-wrapper-error");
+      error.insertAfter(element).wrap("<div class='error-wrapper' />");
+      if (element[0].tagName == "SELECT") {
+        element.parents(".form-item").find(".param-selector").addClass("param-sel-error")
+      }
+    },
+    unhighlight: function(element, errorClass, validClass) {
+      // $(element).parents(".input-wrapper").removeClass("input-wrapper-error");
+      $(element).removeClass(errorClass);
+      $(element).next("label.error").remove();
+      if ($(element)[0].tagName == "SELECT") {
+        $(element).parents(".form-item").find(".param-selector").removeClass("selector-error")
+      }
+    },
+    invalidHandler: function(form, validatorcalc) {
+        var errors = validatorcalc.numberOfInvalids();
+        if (errors) {                    
+            validatorcalc.errorList[0].element.focus();
+        }
+    },
+  });
+  
+  var validatorFeedback_2 = $("#feedback2Form").bind("invalid-form.validate", function() {
+  	    
+    }).validate({
+    focusInvalid: false,
+    sendForm : false,
+    rules: {
+      feedback_2_email: {
+        required: true,
+        email: true
+      }
+    },
+    messages: {
+      feedback_2_name: "Заполните поле!",
+      feedback_2_email: "Введите правильный адрес!",
+      feedback_2_type: "Выберите категорию!",
+      feedback_2_message: "Заполните поле!"
     },
     errorPlacement: function(error, element) {
       // element.parents(".input-wrapper").addClass("input-wrapper-error");
@@ -990,7 +1033,10 @@ function openPopup(pupId) {
       items.hide();
       items.eq(0).addClass("current").show();
       
-      slider.css("height",items.eq(0).height());
+      items.eq(0).find("img").load(function() {
+        slider.css("height",items.eq(0).find("img").height());
+      });
+      
       
       if (sliderSize > 1) {
         slider.after("<div class='next' />");
