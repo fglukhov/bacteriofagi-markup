@@ -299,6 +299,10 @@ blockquote .footer:after,
   position:relative;
 }
 
+.body {
+  background:url(../images/top-shadow.png) center bottom no-repeat;
+}
+
 .body-inner .header {
   background:url(../images/top-shadow.png) center bottom no-repeat;
   padding-bottom:2px;
