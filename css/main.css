@@ -2053,14 +2053,14 @@ hr {
   color:#9d9d9d;
   font-size:12px;
   line-height:14px;
-  margin:0 0 15px 0;
+  margin:0 0 10px 0;
   display:block;
 }
 
 .products-list-item .package {
   font-size:13px;
   line-height:16px;
-  margin-top:15px;
+  margin-top:10px;
   display:block;
 }
 
@@ -2352,7 +2352,7 @@ hr {
 }
 
 .product-card .pic .socbuttons {
-  margin:21px 0 0 0;
+  margin:11px 0 0 0;
 }
 
 .product-card .descr {
@@ -3361,4 +3361,38 @@ hr {
   text-decoration:none;
   text-align:center;
   line-height:39px;
+}
+
+.product-slider .slides {
+  width:260px;
+  height:175px;
+  overflow:hidden;
+  position:relative;
+}
+
+.product-slider .slide {
+  position:absolute;
+  left:0;
+  top:0;
+}
+
+.product-slider .lister {
+  margin:6px 0 11px 0;
+  text-align:center;
+}
+
+.product-slider .lister-item {
+  width:20px;
+  height:20px;
+  display:inline-block;
+  cursor:pointer;
+  background-image:url(../images/lister-pt.png);
+  background-repeat:no-repeat;
+  background-position:0 0;
+  cursor:pointer;
+}
+
+.product-slider .lister .act {
+  background-position:-20px 0;
+  cursor:default;
 }

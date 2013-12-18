@@ -175,10 +175,16 @@ function makeup() {
     }
   });
   
+  if ($(".product-slider").length) {
+    $(".product-slider").each(function() {
+      $(this).productSlider();
+    });
+  }
+  
   if ($(".page-content img").length) {
     $('.page-content img').filter(function() {
         var $th = $(this);
-        return !$th.prev('img').length && !$(this).parents(".slider").length && ($th.parent().hasClass("page-content") || $th.parent("p").parent().hasClass("page-content")) && $(this).next('img').length;
+        return !$th.parents(".pic").length && !$th.prev('img').length && !$(this).parents(".slider").length && ($th.parent().hasClass("page-content") || $th.parent("p").parent().hasClass("page-content")) && $(this).next('img').length;
     }).each(function() {
         
       var $th = $(this);
@@ -1088,6 +1094,68 @@ function openPopup(pupId) {
     
     }
     
+  };
+})( jQuery );
+
+(function( $ ) {
+
+  $.fn.productSlider = function(options) {
+    var slider = $(this);
+    
+      slider.css("width",260);
+      slider.children().each(function() {
+        $(this).wrap("<div class='slide'><div class='pic-wrapper'><div class='pic' style='width:"+260+"px;'></div></div></div>")
+      });
+      var items = $(this).children("div.slide");
+      
+      items.wrapAll("<div class='slides' />")
+      
+      var sliderSize = items.length;
+      
+      items.each(function() {
+        $(this).addClass("slide").attr("index",$(this).index());
+        imgMarginTop = -$(this).find("img").height()/2+175/2;
+        if (imgMarginTop > 0) imgMarginTop = 0;
+        $(this).find("img").css("margin-top",imgMarginTop).after("<div class='pic-mask' />");
+        if ($(this).find("img").hasClass("noframe")) {
+          $(this).find(".pic-mask").hide();
+        }
+      });
+      
+      items.hide();
+      items.eq(0).addClass("current").show();
+      
+      slider.append("<div class='lister fc' />");
+      
+      var lister = slider.parent().find(".lister");
+      
+      for (i=0;i<items.length;i++) {
+        lister.append("<span class='lister-item'></span>")
+      }
+      
+      var listerItems = lister.find(".lister-item");
+      
+      listerItems.first().addClass("act")
+      
+      if (sliderSize > 1) {
+        slider.after("<div class='next' />");
+        slider.after("<div class='prev' />");
+      }
+      
+      // slider.find(".pic-mask").css("width",options.width-20)
+      // slider.find(".pic-mask").css("height",options.height-20)
+      
+      listerItems.click(function() {
+        if (!$(this).hasClass("act")) {
+          curIndex = $(this).prevAll().length;
+          items.eq(lister.find(".act").index()).fadeOut(250).removeClass("current");
+          items.eq(curIndex).fadeIn(250).addClass("current");
+          lister.find(".act").removeClass("act");
+          $(this).addClass("act");
+        }
+      });
+      
+      
   };
 })( jQuery );
 
